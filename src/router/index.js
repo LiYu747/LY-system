@@ -9,7 +9,13 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path:'/Login',
+    name:'Login',
+    component: ()=>import('../views/Login.vue')
   }
+
 ]
 
 const router = new VueRouter({
