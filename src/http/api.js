@@ -15,5 +15,10 @@ export default {
     users({query,pagenum,pagesize}){
       return service.get(`/users?query=${query}&pagenum=${pagenum}&pagesize=${pagesize}`)
     },
-    
+    //添加用户
+    getuser({username,password,email,mobile}){
+      return service.post('/users',{
+        username,password,email,mobile
+      })
+    }
 }

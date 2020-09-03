@@ -13,7 +13,7 @@ const routes = [
     component: Layout,
     children: [
       {
-        path: '/homes',
+        path: '/',
         name: 'homes',
         component: Home,
         meta: {

@@ -95,6 +95,19 @@ export default {
                 commit('stetotal', res.data.total)
                 commit('setarrus', res.data.users)
             }
+        },
+        //添加用户
+        async getuser({commit},{username,password,email,mobile}){
+            let res = await api.getuser({
+                username,password,email,mobile
+            })
+            console.log(commit);
+            console.log(res);
+            if(res.meta.status === 201){
+                Message.success(res.meta.msg)
+            }else{
+                Message.error(res.meta.msg)
+            }
         }
     },
 } 

@@ -12,9 +12,11 @@
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center" width="200">
-          <el-button type="primary" size="small" icon="el-icon-edit"></el-button>
+         <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="add(scope.row)" icon="el-icon-edit"></el-button>
           <el-button type="danger" size="small" icon="el-icon-delete"></el-button>
                   <el-button type="warning" size="small" icon="el-icon-setting"></el-button>
+                   </template>
       </el-table-column>
     </el-table>
     <div class="block m-t1">
@@ -28,6 +30,12 @@
       :total="(Number(total) )">
     </el-pagination>
   </div>
+  <formlay 
+    :Visible.sync='Visible'
+      :formdata="kok"
+      @lol="kok=[]"
+      @cancel='cancel'
+      @ok='ok'></formlay>
   </div>
 </template>
 <script>
@@ -40,8 +48,62 @@ export default {
   components: {},
   data() {
     return {
+      kok:[],
         pagenum:2, //条数
         currentPage:1, //页数
+            Visible:false,
+        formData:[
+          {
+          label:'用户名',
+          type:'input',
+          prop:'username',
+          value:'',
+          disabled:true,
+          //  rules:[
+          //     {
+          //       message:'用户名不能为空',
+          //       tirgger:'blur'
+          //     }
+          //   ],
+          // attrs:{
+          //    placeholder:'请输入用户名',
+          // }
+        },
+        {
+          label:'邮箱',
+          type:'input',
+          prop:'email',
+          value:'22',
+           rules:[
+              {
+                required:true,
+                message:'邮箱不能为空',
+                tirgger:'blur'
+              }
+            ],
+          attrs:{
+             placeholder:'请输入用户名',
+             clearable:true
+          }
+        },
+        {
+          label:'电话',
+          type:'input',
+            prop:'tell',
+            rules:[
+              {
+                required:true,
+                message:'电话号码不能为空',
+                tirgger:'blur'
+              }
+            ],
+          value:'',
+          attrs:{
+             placeholder:'请输入用户名',
+               clearable:true,
+          }
+        },
+        ]
     };
   },
   methods: {
@@ -60,7 +122,42 @@ export default {
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
         this.currentPage = val
-      }
+      },
+       add(row){
+         this.formData.map((item,index)=>{
+           if(index===0){
+             item.value = row.username
+           }
+           if(index===1){
+             item.value = row.email
+           }
+           if(index===2){
+             item.value = row.mobile
+           }
+         })
+     this.kok = this.formData
+    console.log( this.kok);
+           this.Visible = true
+     },
+      cancel(val){
+         this.$message.success('点击取消')
+         this.Visible = false
+         this.kok=[]
+         val.formRef.resetFields()
+      },
+          ok(val){
+            val.formRef.validate(vaild=>{
+              if(vaild){
+                  this.kok=[]
+                 this.$message.success('点击确定')
+            this.Visible = false
+           val.formRef.resetFields()
+              }
+              else{
+                this.$message.error('表单填写错误')
+              }
+            })
+      },
   },
   mounted() {
     this.userss();
@@ -73,4 +170,5 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+
 </style>
