@@ -7,7 +7,8 @@ export default {
     state: {
         menus: [],
         total:'',//总条数
-        arrusers:[]  //用户列表
+        arrusers:[],  //用户列表
+        arrsetroles:[] //角色列表
     },
     mutations: {
         setMenus(state, data) {
@@ -18,6 +19,9 @@ export default {
         },
         setarrus(state,data){
             state.arrusers = data
+        },
+        setroles(state,data){
+            state.arrsetroles = data
         }
     },
     actions: {
@@ -25,7 +29,7 @@ export default {
         async getMenus({ commit }) {
             let res = await api.getMenus()
             if (res.meta.status === 200) {
-                res.data.unshift({ authName: '首页', path: 'homes' })
+                res.data.unshift({ authName: '首页', path: '' })
                 // 一级菜单
                 res.data.map(item => {
                     item.path = '/' + item.path
@@ -108,6 +112,50 @@ export default {
             }else{
                 Message.error(res.meta.msg)
             }
-        }
+        },
+        //编辑用户
+        async setuser({commit},{id,email,mobile}){
+            let res = await api.setuser({
+                id,email,mobile
+            })
+            console.log(commit);
+            console.log(res);
+            if(res.meta.status === 200){
+                Message.success(res.meta.msg)
+            }
+        },
+        //改变用户状态
+        async settype({commit},{uId,type}){
+            let res = await api.settype({
+                uId,type
+            })
+            console.log(commit);
+            console.log(res);
+        },
+        //删除用户
+        async deluser({commit},{id}){
+            let res = await api.deluser({
+                id
+            })
+            console.log(commit);
+            console.log(res);
+        },
+        //角色列表
+        async getroles({commit}){
+            let res = await api.getroles()
+            if(res.meta.status === 200){
+                commit('setroles', res.data)
+                console.log(commit);
+                console.log(res)
+            }
+        },
+       //分配角色
+       async setroleid({commit},{id,rid}){
+           let res = await api.setroleid({
+               id,rid
+           })
+           console.log(commit);
+           console.log(res);
+       }
     },
 } 
