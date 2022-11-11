@@ -1,7 +1,8 @@
 <template>
  <div class="box flex  ju-center fz-cu">
      <div class="pos">
-       欢迎来到小爱后台管理系统
+       欢迎来到小爱后台管理系统   欢迎大家
+
      </div>
  </div>
 </template>
